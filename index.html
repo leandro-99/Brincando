@@ -1,44 +1,138 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Brincando</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Miner - Idle Clicker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h1 class="text-center">BEM VINDO AO PURO DESESPERO</h1>
-
-    <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCtYHM5gOEkeIgXYmUU7c6r98gpBPOy3oV_A&usqp=CAU"
-                    alt="mono">
-                <h3>MONOKUMA</h3>
+    <div class="game-container">
+        <header>
+            <h1>⛏️ Crypto Miner ⛏️</h1>
+            <div class="stats">
+                <div class="crypto-count">
+                    <span class="crypto-icon">₿</span>
+                    <span id="cryptoAmount">0</span> Bitcoins
+                </div>
+                <div class="per-second">
+                    <span id="cryptoPerSecond">0</span> BTC/s
+                </div>
             </div>
-        </div>
-        <div class="border">
-            <div class="grid_container m-4" id="c"></div>
-        </div>
-        <div class=" my-3">
-            <button class="btn fs-2 px-5 btn-primary" onclick="newPage('/view/register.php')">Juntar-se</button>
-        </div>
+        </header>
+
+        <main>
+            <div class="mining-section">
+                <button id="mineButton" class="mine-button">
+                    <div class="mine-icon">⛏️</div>
+                    <div class="mine-text">MINERAR!</div>
+                    <div class="mine-power">+<span id="clickPower">1</span> BTC</div>
+                </button>
+            </div>
+
+            <div class="upgrades-section">
+                <h2>Upgrades de Mineração</h2>
+                
+                <div class="upgrade-category">
+                    <h3>🖱️ Poder do Click</h3>
+                    <div class="upgrade-item" data-upgrade="clickPower">
+                        <div class="upgrade-info">
+                            <h4>Mouse Gamer</h4>
+                            <p>+1 BTC por click</p>
+                            <div class="upgrade-cost">
+                                <span class="crypto-icon">₿</span>
+                                <span id="clickPowerCost">10</span>
+                            </div>
+                        </div>
+                        <button class="buy-button" onclick="buyUpgrade('clickPower')">
+                            Comprar (Nível <span id="clickPowerLevel">0</span>)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="upgrade-category">
+                    <h3>🤖 Mineração Automática</h3>
+                    
+                    <div class="upgrade-item" data-upgrade="gpu">
+                        <div class="upgrade-info">
+                            <h4>Placa de Vídeo</h4>
+                            <p>+0.1 BTC/s</p>
+                            <div class="upgrade-cost">
+                                <span class="crypto-icon">₿</span>
+                                <span id="gpuCost">15</span>
+                            </div>
+                        </div>
+                        <button class="buy-button" onclick="buyUpgrade('gpu')">
+                            Comprar (<span id="gpuCount">0</span>)
+                        </button>
+                    </div>
+
+                    <div class="upgrade-item" data-upgrade="asic">
+                        <div class="upgrade-info">
+                            <h4>ASIC Miner</h4>
+                            <p>+1 BTC/s</p>
+                            <div class="upgrade-cost">
+                                <span class="crypto-icon">₿</span>
+                                <span id="asicCost">100</span>
+                            </div>
+                        </div>
+                        <button class="buy-button" onclick="buyUpgrade('asic')">
+                            Comprar (<span id="asicCount">0</span>)
+                        </button>
+                    </div>
+
+                    <div class="upgrade-item" data-upgrade="farm">
+                        <div class="upgrade-info">
+                            <h4>Fazenda de Mineração</h4>
+                            <p>+10 BTC/s</p>
+                            <div class="upgrade-cost">
+                                <span class="crypto-icon">₿</span>
+                                <span id="farmCost">1000</span>
+                            </div>
+                        </div>
+                        <button class="buy-button" onclick="buyUpgrade('farm')">
+                            Comprar (<span id="farmCount">0</span>)
+                        </button>
+                    </div>
+
+                    <div class="upgrade-item" data-upgrade="datacenter">
+                        <div class="upgrade-info">
+                            <h4>Data Center</h4>
+                            <p>+100 BTC/s</p>
+                            <div class="upgrade-cost">
+                                <span class="crypto-icon">₿</span>
+                                <span id="datacenterCost">10000</span>
+                            </div>
+                        </div>
+                        <button class="buy-button" onclick="buyUpgrade('datacenter')">
+                            Comprar (<span id="datacenterCount">0</span>)
+                        </button>
+                    </div>
+
+                    <div class="upgrade-item" data-upgrade="quantum">
+                        <div class="upgrade-info">
+                            <h4>Computador Quântico</h4>
+                            <p>+1000 BTC/s</p>
+                            <div class="upgrade-cost">
+                                <span class="crypto-icon">₿</span>
+                                <span id="quantumCost">100000</span>
+                            </div>
+                        </div>
+                        <button class="buy-button" onclick="buyUpgrade('quantum')">
+                            Comprar (<span id="quantumCount">0</span>)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <button onclick="saveGame()">💾 Salvar</button>
+            <button onclick="resetGame()">🔄 Resetar</button>
+        </footer>
     </div>
+
+    <div class="particles"></div>
+    <script src="game.js"></script>
 </body>
-
 </html>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
-
-<script src="js/nextPage.js"></script>
-<script>
-    $.ajax({
-        url: "control/get_student.php",
-    }).done((d) => { $('#c').append(d) })
-</script>
