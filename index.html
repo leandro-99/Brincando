@@ -1,44 +1,218 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Brincando</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Farm Clicker - Jogo Idle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <h1 class="text-center">BEM VINDO AO PURO DESESPERO</h1>
+    <div class="container-fluid game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <h1 class="game-title">🌾 Farm Clicker</h1>
+                </div>
+                <div class="col-md-8">
+                    <div class="resources-bar">
+                        <div class="resource">
+                            <i class="fas fa-coins"></i>
+                            <span id="coins">0</span>
+                        </div>
+                        <div class="resource">
+                            <i class="fas fa-seedling"></i>
+                            <span id="seeds">0</span>
+                        </div>
+                        <div class="resource">
+                            <i class="fas fa-tractor"></i>
+                            <span id="productivity">1</span>/sec
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCtYHM5gOEkeIgXYmUU7c6r98gpBPOy3oV_A&usqp=CAU"
-                    alt="mono">
-                <h3>MONOKUMA</h3>
+        <div class="row game-content">
+            <!-- Área Principal de Clique -->
+            <div class="col-lg-6">
+                <div class="main-area">
+                    <div class="farm-display">
+                        <div class="click-area" id="clickArea">
+                            <div class="farm-icon">🌱</div>
+                            <div class="click-effect" id="clickEffect"></div>
+                        </div>
+                        <div class="level-info">
+                            <h3>Nível <span id="farmLevel">1</span></h3>
+                            <div class="progress">
+                                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                            </div>
+                            <small>Próximo upgrade: <span id="nextUpgrade">100</span> moedas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loja e Upgrades -->
+            <div class="col-lg-6">
+                <div class="shop-area">
+                    <ul class="nav nav-pills mb-3" id="shopTabs">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#buildings">
+                                <i class="fas fa-building"></i> Construções
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#upgrades">
+                                <i class="fas fa-arrow-up"></i> Melhorias
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#achievements">
+                                <i class="fas fa-trophy"></i> Conquistas
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- Construções -->
+                        <div class="tab-pane fade show active" id="buildings">
+                            <div class="building-item" data-building="greenhouse">
+                                <div class="building-icon">🏠</div>
+                                <div class="building-info">
+                                    <h5>Estufa <span class="badge bg-primary" id="greenhouse-count">0</span></h5>
+                                    <p>+1 semente/sec</p>
+                                    <button class="btn btn-success" id="buy-greenhouse">
+                                        Comprar - <span id="greenhouse-cost">10</span> 🪙
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="building-item" data-building="tractor">
+                                <div class="building-icon">🚜</div>
+                                <div class="building-info">
+                                    <h5>Trator <span class="badge bg-primary" id="tractor-count">0</span></h5>
+                                    <p>+5 sementes/sec</p>
+                                    <button class="btn btn-success" id="buy-tractor">
+                                        Comprar - <span id="tractor-cost">100</span> 🪙
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="building-item" data-building="factory">
+                                <div class="building-icon">🏭</div>
+                                <div class="building-info">
+                                    <h5>Fábrica <span class="badge bg-primary" id="factory-count">0</span></h5>
+                                    <p>+25 sementes/sec</p>
+                                    <button class="btn btn-success" id="buy-factory">
+                                        Comprar - <span id="factory-cost">1000</span> 🪙
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="building-item" data-building="robot">
+                                <div class="building-icon">🤖</div>
+                                <div class="building-info">
+                                    <h5>Robô Agricultor <span class="badge bg-primary" id="robot-count">0</span></h5>
+                                    <p>+100 sementes/sec</p>
+                                    <button class="btn btn-success" id="buy-robot">
+                                        Comprar - <span id="robot-cost">10000</span> 🪙
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Melhorias -->
+                        <div class="tab-pane fade" id="upgrades">
+                            <div class="upgrade-item" data-upgrade="click">
+                                <h5>Clique Duplo</h5>
+                                <p>Dobra o poder do clique</p>
+                                <button class="btn btn-warning" id="upgrade-click">
+                                    Comprar - <span id="click-upgrade-cost">50</span> 🪙
+                                </button>
+                            </div>
+
+                            <div class="upgrade-item" data-upgrade="efficiency">
+                                <h5>Eficiência Aprimorada</h5>
+                                <p>+50% produção de todas as construções</p>
+                                <button class="btn btn-warning" id="upgrade-efficiency">
+                                    Comprar - <span id="efficiency-upgrade-cost">500</span> 🪙
+                                </button>
+                            </div>
+
+                            <div class="upgrade-item" data-upgrade="automation">
+                                <h5>Automação Completa</h5>
+                                <p>Construções produzem moedas diretamente</p>
+                                <button class="btn btn-warning" id="upgrade-automation">
+                                    Comprar - <span id="automation-upgrade-cost">5000</span> 🪙
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Conquistas -->
+                        <div class="tab-pane fade" id="achievements">
+                            <div class="achievement-item unlocked" data-achievement="first-click">
+                                <div class="achievement-icon">👆</div>
+                                <div class="achievement-info">
+                                    <h6>Primeiro Clique</h6>
+                                    <small>Clique pela primeira vez</small>
+                                </div>
+                            </div>
+
+                            <div class="achievement-item" data-achievement="hundred-coins">
+                                <div class="achievement-icon">💰</div>
+                                <div class="achievement-info">
+                                    <h6>Centena de Ouro</h6>
+                                    <small>Tenha 100 moedas</small>
+                                </div>
+                            </div>
+
+                            <div class="achievement-item" data-achievement="first-building">
+                                <div class="achievement-icon">🏠</div>
+                                <div class="achievement-info">
+                                    <h6>Primeiro Edifício</h6>
+                                    <small>Compre sua primeira construção</small>
+                                </div>
+                            </div>
+
+                            <div class="achievement-item" data-achievement="farm-master">
+                                <div class="achievement-icon">👑</div>
+                                <div class="achievement-info">
+                                    <h6>Mestre da Fazenda</h6>
+                                    <small>Alcance o nível 10</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="border">
-            <div class="grid_container m-4" id="c"></div>
-        </div>
-        <div class=" my-3">
-            <button class="btn fs-2 px-5 btn-primary" onclick="newPage('/view/register.php')">Juntar-se</button>
-        </div>
+
+        <!-- Stats Footer -->
+        <footer class="game-footer">
+            <div class="row">
+                <div class="col-md-3">
+                    <small>Total de Cliques: <span id="totalClicks">0</span></small>
+                </div>
+                <div class="col-md-3">
+                    <small>Moedas Totais: <span id="totalCoins">0</span></small>
+                </div>
+                <div class="col-md-3">
+                    <small>Tempo Jogando: <span id="playTime">0s</span></small>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-sm btn-secondary" onclick="resetGame()">Reset Game</button>
+                </div>
+            </div>
+        </footer>
     </div>
+
+    <!-- Floating Numbers -->
+    <div id="floatingNumbers"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/game.js"></script>
 </body>
-
 </html>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
-
-<script src="js/nextPage.js"></script>
-<script>
-    $.ajax({
-        url: "control/get_student.php",
-    }).done((d) => { $('#c').append(d) })
-</script>
